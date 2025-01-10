@@ -6,7 +6,11 @@ public class AreaCalculator {
 
         
         //Task 5 – Call area functions.
-
+        double sq = areaSquare(2.0);
+        double r = areaRectangle(1.0,2.0);
+        double t = areaTriangle(1.0,2.0);
+        double c = areaCircle(2.0);
+        printAreas(sq,r,t,c);
         // double square = area of square with a side of 2.
         // double rectangle = area of rectangle with a length of 1, and a width of 2. 
         // double triangle = area of triangle with a base of 1, and a width of 2. 
@@ -19,7 +23,6 @@ public class AreaCalculator {
 
     //Task 1 - Write a function that calculates the area of a square. 
 
-
     /**
      * Function name: areaSquare - returns the area of a square.
      * @param side (double)
@@ -30,8 +33,16 @@ public class AreaCalculator {
      *  2. Calculates the area of the square. A = side²
      */
     public static double areaSquare(double side) {
-
-        return 0;
+        if (side < 0)
+        {
+            System.out.println("Error: impossible");
+            return 0;
+        }
+        else{
+            double area = side*side;
+            return area;
+        }
+        
     }
 
 
@@ -49,8 +60,15 @@ public class AreaCalculator {
      *  2. Calculates the area of the rectangle. A = length * width
      */
     public static double areaRectangle(double length, double width) {
-
-        return 0;  
+        if (length < 0 || width < 0)
+        {
+            System.out.println("Error: Impossible");
+            return 0;
+        }
+        else{
+        double area = length*width;
+        return area;
+        }
     } 
 
     //Task 3 - Write a function that calculates the area of a triangle. 
@@ -65,9 +83,17 @@ public class AreaCalculator {
      *  1. If the base OR height is negative, prints "Error: impossible" and terminates the program.
      *  2. Calculates the area of the triangle. A = (base * height)/2
      */ 
-    public static double areaTriangle(double base, double height) {
-
-        return 0; 
+    public static double areaTriangle(double base, double height)
+    {
+        if (base < 0 || height < 0)
+        {
+            System.out.println("Error: Impossible");
+            return 0; 
+        }
+        else{
+            double area = (base*height)/2;
+            return area;
+        }
     }
 
     //Task 4 - Write a function that calculates the area of circle. 
@@ -82,15 +108,31 @@ public class AreaCalculator {
      *  1. If the radius is negative, prints "Error: impossible" and terminates the program.
      *  2. Calculates the area of the circle. 
      */ 
-    public static double areaCircle(double radius) {
-
-        return 0;
+    public static double areaCircle(double radius)
+    {
+        if (radius < 0)
+        {
+            System.out.println("Error : Impossible");
+            return 0;
+        }
+        else
+        {
+            double area = Math.PI * (radius*radius);
+            return area;
+        }
     }
 
 
 
     //Task 6: Write a function that prints every area.
+    public static void printAreas(double square, double rectangle, double triangle, double circle)
+    {
+        System.out.println("Square area: "+square);
+        System.out.println("Rectangle area: "+rectangle);
+        System.out.println("Triangle area: "+triangle);
+        System.out.println("Circle area: "+circle);
 
+    }
 
     /**
      * Function name: printAreas – it prints four areas
