@@ -1,17 +1,16 @@
+import constants.TradeAccountType;
+import constants.Transaction;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import constants.TradeAccountType;
-import constants.Transaction;
 import pojo.CashAccount;
 import pojo.MarginAccount;
 import repository.TradeAccountRepository;
-import service.TradeAccountService;
 import service.CashAccountService;
 import service.MarginAccountService;
+import service.TradeAccountService;
 
 public class Main {
 
