@@ -10,12 +10,12 @@ import jakarta.persistence.Table;
 public class Student {
 	
 	@Id
-	private int id;
+	private Long id;
 	
 	@Column(name="student_name", nullable = false)
 	private String name;
 
-	public Student(int id, String name) {
+	public Student(Long id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -25,11 +25,11 @@ public class Student {
 		super();
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

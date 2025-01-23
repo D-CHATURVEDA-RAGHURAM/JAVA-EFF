@@ -1,1 +1,0 @@
-insert into student_dtails("Chaturved");
