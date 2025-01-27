@@ -1,0 +1,70 @@
+package com.example.restapi.usecase.employee.student.project.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.restapi.usecase.employee.student.project.entity.Employee;
+import com.example.restapi.usecase.employee.student.project.entity.Student;
+import com.example.restapi.usecase.employee.student.project.service.EmployeeService;
+import com.example.restapi.usecase.employee.student.project.service.StudentService;
+
+@RestController
+public class EmployeeController {
+	
+	@Autowired
+	private EmployeeService employeeService;
+	
+	@PostMapping("/employee/insert")
+	public void addEmployee(@RequestBody Employee employee)
+	{
+		employeeService.employeeAdd(employee);
+	}
+	
+	@PutMapping("/employee/update/{id}")
+	public void updateEmployee(@PathVariable int id, @RequestBody Employee employee)
+	{
+		employeeService.employeeUpdate(id, employee);
+	}
+	
+	@DeleteMapping("/employee/delete/{id}")
+	public void deleteEmployee(@PathVariable int id)
+	{
+		employeeService.employeeDelete(id);
+	}
+	
+	@GetMapping("/employee/display")
+	public List<Employee> printEmployee()
+	{
+		return employeeService.employeePrint();
+	}
+	
+	@Autowired
+	private StudentService stService;
+	
+	@GetMapping("/employee/student-display")
+	public List<Student> printStudentByEmployee()
+	{
+		return stService.studentPrint();
+	}
+	
+	@PostMapping("/employee/student-insert")
+	public void insertStudentByEmployee(@RequestBody Student student)
+	{
+		stService.studentAdd(student);
+	}
+	
+	@PutMapping("/employee/student-update/{id}")
+	public void updateStudentByEmployee(@PathVariable int id, @RequestBody Student student)
+	{
+		stService.studentUpdate(id, student);
+	}
+	
+}

@@ -17,6 +17,8 @@ public class CommandLine implements CommandLineRunner{
 		repository.save(new Student(1l, "Chaturved"));
 		repository.save(new Student(2l, "Raghu"));
 		repository.save(new Student(3l, "Ram"));
+		repository.save(new Student(4l,"Yatin"));
+		
 		System.out.println(repository.findAll());
 		
 		repository.deleteById(3l);
