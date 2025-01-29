@@ -1,35 +1,40 @@
 package com.example.spring.boot.API;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
+@SessionAttributes("name")
 public class LoginController {
 
-	@RequestMapping("/login")
-	public String loginjsp()   
+	private AuthenticationService authenticationService;
+	
+	public LoginController(AuthenticationService authenticationService) {
+		super();
+		this.authenticationService = authenticationService;
+	}
+
+	@RequestMapping(value = "login", method = RequestMethod.GET)
+	public String loginJsp()   
 	{
 		return "login";
 	}
 	
-	@RequestMapping("login-html")
-	@ResponseBody
-	public String loginHtml()
+	@RequestMapping(value = "login", method = RequestMethod.POST)
+	public String reDirectedPage(@RequestParam String name,@RequestParam String password, ModelMap model)   
 	{
-		StringBuffer sb = new StringBuffer();
-		sb.append("<html>");
-		sb.append("<head>");
-		sb.append("Login Page");
-		sb.append("</head>");
-		sb.append("<body>");
-		sb.append("Welcome to the login page");
-		sb.append("</body>");
-		sb.append("</html>");
-		
-		return sb.toString();
-		
-		
+		if (authenticationService.authenticate(name,password))
+		{
+			model.put("name", name);
+			model.put("password", password);
+			return "Hello"; 
+		}
+		model.put("errorMessage", "Invalid Credentials! Please Try It Again.");
+		return "login";
 	}
 	
 }

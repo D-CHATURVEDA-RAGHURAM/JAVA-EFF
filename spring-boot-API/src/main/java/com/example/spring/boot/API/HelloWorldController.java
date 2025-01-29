@@ -28,9 +28,7 @@ public class HelloWorldController
 		sb.append("</body>");
 		sb.append("</html>");
 		
-		return sb.toString();
-		
-		
+		return sb.toString();	
 	}
 	
 }
