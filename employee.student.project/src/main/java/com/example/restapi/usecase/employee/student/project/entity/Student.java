@@ -1,7 +1,9 @@
 package com.example.restapi.usecase.employee.student.project.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,14 +12,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "Student")
 public class Student {
 	
 	@Id
-	private long student_id;
+	@Column(name = "student_id")
+	private long studentId;
 	
-	private String student_name;
+	@Column(name = "student_name")
+	private String studentName;
 	
-	private String student_branch;
+	@Column(name = "student_branch")
+	private String studentBranch;
 	
-	private long student_rollno;	
+	@Column(name = "student_rollno")
+	private long studentRollno;
 }
