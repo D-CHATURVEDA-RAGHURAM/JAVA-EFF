@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.restapi.usecase.employee.student.project.dto.EmployeeDto;
+import com.example.restapi.usecase.employee.student.project.dto.StudentDto;
 import com.example.restapi.usecase.employee.student.project.entity.Employee;
 import com.example.restapi.usecase.employee.student.project.entity.Student;
 import com.example.restapi.usecase.employee.student.project.service.EmployeeService;
@@ -26,10 +28,9 @@ public class EmployeeController {
 	private EmployeeService employeeService;
 	
 	@PostMapping("insert")
-	public void addEmployee(@RequestBody Employee employee)
+	public ResponseEntity<EmployeeDto> addEmployee(@RequestBody Employee employee)
 	{
-		
-		employeeService.employeeAdd(employee);
+		return employeeService.employeeAdd(employee);
 	}
 	
 	@PutMapping("update/{id}")
@@ -56,8 +57,8 @@ public class EmployeeController {
 		employeeService.employeeDeleteByDesig(desig);
 	}
 	
-	@GetMapping("display")
-	public List<Employee> printEmployee()
+	@GetMapping("/display")
+	public List<EmployeeDto> printEmployee()
 	{
 		return employeeService.employeePrint();
 	}
@@ -66,7 +67,7 @@ public class EmployeeController {
 	private StudentService stService;
 	
 	@GetMapping("student-display")
-	public List<Student> printStudentByEmployee()
+	public List<StudentDto> printStudentByEmployee()
 	{
 		return stService.studentPrint();
 	}

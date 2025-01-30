@@ -2,6 +2,7 @@ package com.example.restapi.usecase.employee.student.project.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,7 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.example.restapi.usecase.employee.student.project.dto.EmployeeDto;
 import com.example.restapi.usecase.employee.student.project.entity.Employee;
+import com.example.restapi.usecase.employee.student.project.mapper.EmployeeMapper;
 import com.example.restapi.usecase.employee.student.project.repo.EmployeeRepo;
 
 @Service
@@ -18,20 +21,30 @@ public class EmployeeService {
 	@Autowired
 	private EmployeeRepo employeeRepo;
 	
-	public void employeeAdd( Employee employee)
+	@Autowired
+	private EmployeeMapper employeeMapper;
+	
+	public ResponseEntity<EmployeeDto>  employeeAdd(Employee employee)
 	{
-		employeeRepo.save(employee);
+		 // Save the employee to the repository
+        Employee savedEmployee = employeeRepo.save(employee);
+
+        // Convert saved employee to EmployeeDto
+        EmployeeDto employeeDto = employeeMapper.toEmployeeDto(savedEmployee);
+
+        // Return ResponseEntity with a 201 Created status and the employeeDto in the body
+        return new ResponseEntity<>(employeeDto, HttpStatus.CREATED);
 		
 	}
 	
 	public void employeeUpdate(int id, Employee employee)
 	{
 		Employee emp = employeeRepo.findById((long)id).get();
-		emp.setEmployee_name(employee.getEmployee_name());
-		emp.setEmployee_desig(employee.getEmployee_desig());
+		emp.setEmployeeName(employee.getEmployeeName());
+		emp.setEmployeeDesig(employee.getEmployeeDesig());
 		employeeRepo.save(emp);
 		
-	}
+	}   
 	
 	public ResponseEntity<String> employeeDeleteByName(String name) {
 	    try {
@@ -47,8 +60,6 @@ public class EmployeeService {
 	        return ResponseEntity.status(500).body("An error occurred: " + e.getMessage());
 	    }
 	}
-
-
 	
 	public void employeeDeleteByDesig(String desig)
 	{
@@ -67,9 +78,9 @@ public class EmployeeService {
 		}
 	}
 	
-	public List<Employee> employeePrint()
+	public List<EmployeeDto> employeePrint()
 	{
-		return employeeRepo.findAll();
+		return employeeRepo.findAll().stream().map(employeeMapper::toEmployeeDto).collect(Collectors.toList());
 	}
 	
 }

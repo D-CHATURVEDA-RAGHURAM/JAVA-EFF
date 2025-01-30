@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.restapi.usecase.employee.student.project.dto.StudentDto;
 import com.example.restapi.usecase.employee.student.project.entity.Student;
 import com.example.restapi.usecase.employee.student.project.service.StudentService;
 
@@ -25,7 +26,7 @@ public class StudentController {
 	}
 	
 	@GetMapping("display")
-	public List<Student> printStudent()
+	public List<StudentDto> printStudent()
 	{
 		return studentService.studentPrint();
 	}
