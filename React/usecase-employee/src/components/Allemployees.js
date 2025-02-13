@@ -3,6 +3,7 @@ import Employee from "./Employee";
 import axios from "axios";
 import base_url from "../api/bootapi";
 import { toast } from "react-toastify";
+<<<<<<< HEAD
 import { Button, Container, Table } from "reactstrap";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
@@ -13,11 +14,31 @@ const Allemployees = () => {
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
+=======
+import { Button, Container } from "reactstrap";
+
+const Allemployees = () => {
+    const [employees, setEmployees] = useState([]);
+
+    // Fetch employees from the server
+    const getAllEmployeesFromServer = () => {
+        axios.get(`${base_url}/display`)
+            .then((response) => {
+                console.log("API Response:", response.data);
+                setEmployees(response.data);
+            })
+            .catch((error) => {
+                console.error("Error fetching employees:", error);
+                toast.error("Something went wrong");
+            });
+    };
+>>>>>>> f2c74ba4b5f2d570e666875c8d33be62127bcd2e
 
     useEffect(() => {
         getAllEmployeesFromServer();
     }, []);
 
+<<<<<<< HEAD
     const getAllEmployeesFromServer = () => {
         axios.get(`${base_url}/display`)
             .then((response) => setEmployees(response.data))
@@ -89,6 +110,39 @@ const Allemployees = () => {
                 getImageForDesignation={getImageForDesignation} 
             />
         </>
+=======
+    // Delete function to update UI
+    const deleteEmployeeById = (employeeId) => {
+        setEmployees(employees.filter((c) => c.employeeId !== employeeId));
+    };
+
+    // Sort by ascending order (by name)
+    const sortByAscendingOrder = () => {
+        setEmployees([...employees].sort((a, b) => a.employeeName.localeCompare(b.employeeName)));
+    };
+
+    // Sort by descending order (by name)
+    const sortByDescendingOrder = () => {
+        setEmployees([...employees].sort((a, b) => b.employeeName.localeCompare(a.employeeName)));
+    };
+
+    return (
+        <div className="text-center">
+            <h3>All Employee Details</h3>
+            <Container className="mb-3">
+                <Button color="primary" className="me-2" onClick={sortByAscendingOrder}>Ascending Order</Button>
+                <Button color="success" onClick={sortByDescendingOrder}>Descending Order</Button>
+            </Container>
+
+            {employees.length > 0 ? (
+                employees.map((item) => (
+                    <Employee key={item.employeeId} employee={item} update={deleteEmployeeById} />
+                ))
+            ) : (
+                <p>No Employees Found</p>
+            )}
+        </div>
+>>>>>>> f2c74ba4b5f2d570e666875c8d33be62127bcd2e
     );
 };
 

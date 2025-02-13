@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from "react";
+<<<<<<< HEAD
 import { Button, Container, Form, FormGroup, Input, Label } from "reactstrap";
+=======
+import { Button, Container, Form, FormGroup, Input } from "reactstrap";
+>>>>>>> f2c74ba4b5f2d570e666875c8d33be62127bcd2e
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import base_url from "../api/bootapi";
 import { toast } from "react-toastify";
+<<<<<<< HEAD
 import Header from "./Header"; 
+=======
+>>>>>>> f2c74ba4b5f2d570e666875c8d33be62127bcd2e
 
 const UpdateEmployee = () => {
     const { employeeId } = useParams();
     const navigate = useNavigate();
+<<<<<<< HEAD
 
     const [employee, setEmployee] = useState({
         employeeName: "",
@@ -25,11 +33,30 @@ const UpdateEmployee = () => {
                 });
             })
             .catch(() => toast.error("Error fetching employee details!"));
+=======
+    
+    const [employee, setEmployee] = useState({
+        employeeId: "",
+        employeeName: "",
+        employeeDesig: ""
+    });
+
+    // Fetch employee details on page load
+    useEffect(() => {
+        axios.get(`${base_url}/get/${employeeId}`)
+            .then((response) => {
+                setEmployee(response.data);
+            })
+            .catch((error) => {
+                toast.error("Error fetching employee details!");
+            });
+>>>>>>> f2c74ba4b5f2d570e666875c8d33be62127bcd2e
     }, [employeeId]);
 
     // Handle form submission
     const handleForm = (e) => {
         e.preventDefault();
+<<<<<<< HEAD
 
         axios.put(`${base_url}/update/${employeeId}`, employee)
         .then(() => {
@@ -106,6 +133,62 @@ const UpdateEmployee = () => {
                 </Form>
             </Container>
         </>
+=======
+        axios.put(`${base_url}/update/${employeeId}`, employee)
+            .then(() => {
+                toast.success("Employee Updated Successfully!");
+                navigate("/view-employee");  // Redirect to View Employees
+            })
+            .catch(() => {
+                toast.error("Error updating employee!");
+            });
+    };
+
+    const handleIdClick = () => {
+        toast.warn("You Cannot Edit Employee Id", {
+            position: "top-center",
+            autoClose: 3000,
+        });
+    };
+
+    return (
+        <Container>
+            <h1 className="text-center my-3">Update Employee Details</h1>
+            <Form onSubmit={handleForm}>
+                <FormGroup>
+                    <label>Employee ID</label>
+                    <Input 
+                    type="text" 
+                    value={employee.employeeId} 
+                    readOnly 
+                    onClick={handleIdClick}
+                    style={{ cursor: "not-allowed", backgroundColor: "#f8f9fa" }} />
+                </FormGroup>
+
+                <FormGroup>
+                    <label>Employee Name</label>
+                    <Input
+                        type="text"
+                        value={employee.employeeName}
+                        onChange={(e) => setEmployee({ ...employee, employeeName: e.target.value })}
+                    />
+                </FormGroup>
+
+                <FormGroup>
+                    <label>Employee Designation</label>
+                    <Input
+                        type="text"
+                        value={employee.employeeDesig}
+                        onChange={(e) => setEmployee({ ...employee, employeeDesig: e.target.value })}
+                    />
+                </FormGroup>
+
+                <Container className="text-center">
+                    <Button type="submit" color="success">Save & Update</Button>
+                </Container>
+            </Form>
+        </Container>
+>>>>>>> f2c74ba4b5f2d570e666875c8d33be62127bcd2e
     );
 };
 
