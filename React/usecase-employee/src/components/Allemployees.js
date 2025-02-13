@@ -3,59 +3,92 @@ import Employee from "./Employee";
 import axios from "axios";
 import base_url from "../api/bootapi";
 import { toast } from "react-toastify";
-import { Button, Container } from "reactstrap";
+import { Button, Container, Table } from "reactstrap";
+import Header from "./Header";
+import { useNavigate } from "react-router-dom";
+import EmployeeModal from "./EmployeeModal"; // ✅ Import EmployeeModal
 
 const Allemployees = () => {
     const [employees, setEmployees] = useState([]);
-
-    // Fetch employees from the server
-    const getAllEmployeesFromServer = () => {
-        axios.get(`${base_url}/display`)
-            .then((response) => {
-                console.log("API Response:", response.data);
-                setEmployees(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching employees:", error);
-                toast.error("Something went wrong");
-            });
-    };
+    const [selectedEmployee, setSelectedEmployee] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         getAllEmployeesFromServer();
     }, []);
 
-    // Delete function to update UI
-    const deleteEmployeeById = (employeeId) => {
-        setEmployees(employees.filter((c) => c.employeeId !== employeeId));
+    const getAllEmployeesFromServer = () => {
+        axios.get(`${base_url}/display`)
+            .then((response) => setEmployees(response.data))
+            .catch(() => toast.error("Something went wrong"));
     };
 
-    // Sort by ascending order (by name)
-    const sortByAscendingOrder = () => {
-        setEmployees([...employees].sort((a, b) => a.employeeName.localeCompare(b.employeeName)));
+    const updateAfterDelete = (employeeId) => {
+        setEmployees((prevEmployees) => prevEmployees.filter(emp => emp.employeeId !== employeeId));
     };
 
-    // Sort by descending order (by name)
-    const sortByDescendingOrder = () => {
-        setEmployees([...employees].sort((a, b) => b.employeeName.localeCompare(a.employeeName)));
+    const handleViewEmployee = (employee) => {
+        setSelectedEmployee(employee);
+        setIsModalOpen(true);
+    };
+
+    const getImageForDesignation = (designation) => {
+        const imageMap = {
+            "Full Stack": "/uploads/fullstack.png",
+            "QA": "/uploads/qa.png",
+            "BA": "/uploads/ba.png",
+        };
+        return imageMap[designation] || "/uploads/default.png";
     };
 
     return (
-        <div className="text-center">
-            <h3>All Employee Details</h3>
-            <Container className="mb-3">
-                <Button color="primary" className="me-2" onClick={sortByAscendingOrder}>Ascending Order</Button>
-                <Button color="success" onClick={sortByDescendingOrder}>Descending Order</Button>
+        <>
+            <Header />
+            <Container className="text-center">
+                <h3 className="mb-4">All Employee Details</h3>
+
+                <Button color="primary" className="m-2" onClick={() => navigate("/home")}>
+                    Go to Home
+                </Button>
+                <Button color="success" className="m-2" onClick={() => navigate("/add-employee")}>
+                    Add Employee
+                </Button>
+
+                <Table bordered striped responsive className="mt-3">
+                    <thead className="bg-dark text-white">
+                        <tr>
+                            <th>Employee ID</th>
+                            <th>Employee Name</th>
+                            <th>Designation</th>
+                            <th>Image</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {employees.length > 0 ? (
+                            employees
+                                .sort((a, b) => a.employeeId - b.employeeId)
+                                .map((item) => (
+                                    <Employee key={item.employeeId} employee={item} update={updateAfterDelete} onView={handleViewEmployee} />
+                                ))
+                        ) : (
+                            <tr>
+                                <td colSpan="5" className="text-center">No Employees Found</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </Table>
             </Container>
 
-            {employees.length > 0 ? (
-                employees.map((item) => (
-                    <Employee key={item.employeeId} employee={item} update={deleteEmployeeById} />
-                ))
-            ) : (
-                <p>No Employees Found</p>
-            )}
-        </div>
+            {/* ✅ Employee Details Modal */}
+            <EmployeeModal 
+                isOpen={isModalOpen} 
+                toggle={() => setIsModalOpen(!isModalOpen)} 
+                employee={selectedEmployee} 
+                getImageForDesignation={getImageForDesignation} 
+            />
+        </>
     );
 };
 

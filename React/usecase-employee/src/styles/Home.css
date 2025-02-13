@@ -1,0 +1,87 @@
+/* home.css */
+
+/* Full-page background with a smooth gradient */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right, #00c6ff, #0072ff);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Main container styling with glass effect */
+.container {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 50px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(15px);
+    width: 60%;
+    max-width: 600px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Hover effect to give a slight elevation */
+.container:hover {
+    transform: scale(1.02);
+}
+
+/* Title with improved styling */
+h1 {
+    color: #ffffff;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Subtitle with better visibility */
+p {
+    color: #f1f1f1;
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+}
+
+/* Button wrapper */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* Button styling */
+button {
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Individual button colors */
+.add-btn {
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    color: white;
+}
+
+.view-btn {
+    background: linear-gradient(to right, #11998e, #38ef7d);
+    color: white;
+}
+
+.logout-btn {
+    background: linear-gradient(to right, #ff4d4d, #ff0000);
+    color: white;
+}
+
+/* Button hover effects */
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
