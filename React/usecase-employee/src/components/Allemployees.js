@@ -1,149 +1,324 @@
 import React, { useState, useEffect } from "react";
-import Employee from "./Employee";
 import axios from "axios";
 import base_url from "../api/bootapi";
 import { toast } from "react-toastify";
-<<<<<<< HEAD
-import { Button, Container, Table } from "reactstrap";
-import Header from "./Header";
 import { useNavigate } from "react-router-dom";
-import EmployeeModal from "./EmployeeModal"; // ✅ Import EmployeeModal
+// MUI
+import {
+  Box,
+  Container,
+  Typography,
+  Button,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Paper,
+  TableContainer,
+  TablePagination,
+} from "@mui/material";
+import Header from "./Header";
+import Employee from "./Employee";
+import EmployeeModal from "./EmployeeModal";
 
 const Allemployees = () => {
-    const [employees, setEmployees] = useState([]);
-    const [selectedEmployee, setSelectedEmployee] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const navigate = useNavigate();
-=======
-import { Button, Container } from "reactstrap";
+  const [employees, setEmployees] = useState([]);
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-const Allemployees = () => {
-    const [employees, setEmployees] = useState([]);
+  // For pagination
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
-    // Fetch employees from the server
-    const getAllEmployeesFromServer = () => {
-        axios.get(`${base_url}/display`)
-            .then((response) => {
-                console.log("API Response:", response.data);
-                setEmployees(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching employees:", error);
-                toast.error("Something went wrong");
-            });
-    };
->>>>>>> f2c74ba4b5f2d570e666875c8d33be62127bcd2e
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        getAllEmployeesFromServer();
-    }, []);
+  useEffect(() => {
+    getAllEmployeesFromServer();
+  }, []);
 
-<<<<<<< HEAD
-    const getAllEmployeesFromServer = () => {
-        axios.get(`${base_url}/display`)
-            .then((response) => setEmployees(response.data))
-            .catch(() => toast.error("Something went wrong"));
-    };
+  const getAllEmployeesFromServer = () => {
+    axios
+      .get(`${base_url}/display`)
+      .then((response) => setEmployees(response.data))
+      .catch(() => toast.error("Something went wrong"));
+  };
 
-    const updateAfterDelete = (employeeId) => {
-        setEmployees((prevEmployees) => prevEmployees.filter(emp => emp.employeeId !== employeeId));
-    };
+  const updateAfterDelete = (employeeId) => {
+    setEmployees((prev) => prev.filter((emp) => emp.employeeId !== employeeId));
+  };
 
-    const handleViewEmployee = (employee) => {
-        setSelectedEmployee(employee);
-        setIsModalOpen(true);
-    };
+  const handleViewEmployee = (employee) => {
+    setSelectedEmployee(employee);
+    setIsModalOpen(true);
+  };
 
-    const getImageForDesignation = (designation) => {
-        const imageMap = {
-            "Full Stack": "/uploads/fullstack.png",
-            "QA": "/uploads/qa.png",
-            "BA": "/uploads/ba.png",
-        };
-        return imageMap[designation] || "/uploads/default.png";
-    };
+  // Handle pagination page change
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
-    return (
-        <>
-            <Header />
-            <Container className="text-center">
-                <h3 className="mb-4">All Employee Details</h3>
+  // Handle rows-per-page change
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
 
-                <Button color="primary" className="m-2" onClick={() => navigate("/home")}>
-                    Go to Home
-                </Button>
-                <Button color="success" className="m-2" onClick={() => navigate("/add-employee")}>
-                    Add Employee
-                </Button>
+  // Sort employees by ID
+  const sortedEmployees = employees.sort((a, b) => a.employeeId - b.employeeId);
 
-                <Table bordered striped responsive className="mt-3">
-                    <thead className="bg-dark text-white">
-                        <tr>
-                            <th>Employee ID</th>
-                            <th>Employee Name</th>
-                            <th>Designation</th>
-                            <th>Image</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {employees.length > 0 ? (
-                            employees
-                                .sort((a, b) => a.employeeId - b.employeeId)
-                                .map((item) => (
-                                    <Employee key={item.employeeId} employee={item} update={updateAfterDelete} onView={handleViewEmployee} />
-                                ))
-                        ) : (
-                            <tr>
-                                <td colSpan="5" className="text-center">No Employees Found</td>
-                            </tr>
-                        )}
-                    </tbody>
-                </Table>
-            </Container>
+  // Slice employees for current page
+  const paginatedEmployees = sortedEmployees.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
 
-            {/* ✅ Employee Details Modal */}
-            <EmployeeModal 
-                isOpen={isModalOpen} 
-                toggle={() => setIsModalOpen(!isModalOpen)} 
-                employee={selectedEmployee} 
-                getImageForDesignation={getImageForDesignation} 
+  return (
+    <>
+      <Header />
+
+      <Container sx={{ mt: 2 }}>
+        <Box sx={{ textAlign: "center", mb: 3 }}>
+          <Typography variant="h5" gutterBottom>
+            All Employee Details
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ m: 1 }}
+            onClick={() => navigate("/home")}
+          >
+            Go to Home
+          </Button>
+          <Button
+            variant="contained"
+            color="success"
+            sx={{ m: 1 }}
+            onClick={() => navigate("/add-employee")}
+          >
+            Add Employee
+          </Button>
+        </Box>
+
+        <Paper>
+          <TableContainer sx={{ maxHeight: 400 }}>
+            <Table stickyHeader>
+              <TableHead>
+                <TableRow>
+                  <TableCell
+                    sx={{
+                      backgroundColor: "#424242",
+                      color: "#fff",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Employee ID
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      backgroundColor: "#424242",
+                      color: "#fff",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Employee Name
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      backgroundColor: "#424242",
+                      color: "#fff",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Designation
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      backgroundColor: "#424242",
+                      color: "#fff",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Image
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    sx={{
+                      backgroundColor: "#424242",
+                      color: "#fff",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Actions
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {paginatedEmployees && paginatedEmployees.length > 0 ? (
+                  paginatedEmployees.map((item) => (
+                    <Employee
+                      key={item.employeeId}
+                      employee={item}
+                      update={updateAfterDelete}
+                      onView={handleViewEmployee}
+                    />
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={5} align="center">
+                      No Employees Found
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+
+          {/* 
+            1) Wrap TablePagination in a Box to center it horizontally 
+            2) Override MUI classes to remove left/right alignment
+          */}
+          <Box sx={{ display: "flex", justifyContent: "center", p: 1 }}>
+            <TablePagination
+              component="div"
+              count={employees.length}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              rowsPerPageOptions={[5, 10, 25, 50]}
+              sx={{
+                // Make the pagination bar itself centered
+                "& .MuiTablePagination-toolbar": {
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: 2,
+                },
+                // Remove or reduce the default spacer
+                "& .MuiTablePagination-spacer": {
+                  flex: "0 0 auto",
+                },
+                "& .MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows": {
+                  margin: 0,
+                  lineHeight: "1.4375em",
+                },
+                "& .MuiTablePagination-select": {
+                  margin: "0 4px",
+                },
+              }}
             />
-        </>
-=======
-    // Delete function to update UI
-    const deleteEmployeeById = (employeeId) => {
-        setEmployees(employees.filter((c) => c.employeeId !== employeeId));
-    };
+          </Box>
+        </Paper>
+      </Container>
 
-    // Sort by ascending order (by name)
-    const sortByAscendingOrder = () => {
-        setEmployees([...employees].sort((a, b) => a.employeeName.localeCompare(b.employeeName)));
-    };
-
-    // Sort by descending order (by name)
-    const sortByDescendingOrder = () => {
-        setEmployees([...employees].sort((a, b) => b.employeeName.localeCompare(a.employeeName)));
-    };
-
-    return (
-        <div className="text-center">
-            <h3>All Employee Details</h3>
-            <Container className="mb-3">
-                <Button color="primary" className="me-2" onClick={sortByAscendingOrder}>Ascending Order</Button>
-                <Button color="success" onClick={sortByDescendingOrder}>Descending Order</Button>
-            </Container>
-
-            {employees.length > 0 ? (
-                employees.map((item) => (
-                    <Employee key={item.employeeId} employee={item} update={deleteEmployeeById} />
-                ))
-            ) : (
-                <p>No Employees Found</p>
-            )}
-        </div>
->>>>>>> f2c74ba4b5f2d570e666875c8d33be62127bcd2e
-    );
+      <EmployeeModal
+        isOpen={isModalOpen}
+        toggle={() => setIsModalOpen(!isModalOpen)}
+        employee={selectedEmployee}
+      />
+    </>
+  );
 };
 
 export default Allemployees;
+
+
+
+
+
+
+// import React, { useState, useEffect } from "react";
+// import Employee from "./Employee";
+// import axios from "axios";
+// import base_url from "../api/bootapi";
+// import { toast } from "react-toastify";
+// import { Button, Container, Table } from "reactstrap";
+// import Header from "./Header";
+// import { useNavigate } from "react-router-dom";
+// import EmployeeModal from "./EmployeeModal"; // ✅ Import EmployeeModal
+
+// const Allemployees = () => {
+//     const [employees, setEmployees] = useState([]);
+//     const [selectedEmployee, setSelectedEmployee] = useState(null);
+//     const [isModalOpen, setIsModalOpen] = useState(false);
+//     const navigate = useNavigate();
+
+//     useEffect(() => {
+//         getAllEmployeesFromServer();
+//     }, []);
+
+//     const getAllEmployeesFromServer = () => {
+//         axios.get(`${base_url}/display`)
+//             .then((response) => setEmployees(response.data))
+//             .catch(() => toast.error("Something went wrong"));
+//     };
+
+//     const updateAfterDelete = (employeeId) => {
+//         setEmployees((prevEmployees) => prevEmployees.filter(emp => emp.employeeId !== employeeId));
+//     };
+
+//     const handleViewEmployee = (employee) => {
+//         setSelectedEmployee(employee);
+//         setIsModalOpen(true);
+//     };
+
+//     const getImageForDesignation = (designation) => {
+//         const imageMap = {
+//             "Full Stack": "/uploads/fullstack.png",
+//             "QA": "/uploads/qa.png",
+//             "BA": "/uploads/ba.png",
+//         };
+//         return imageMap[designation] || "/uploads/default.png";
+//     };
+
+//     return (
+//         <>
+//             <Header />
+//             <Container className="text-center">
+//                 <h3 className="mb-4">All Employee Details</h3>
+
+//                 <Button color="primary" className="m-2" onClick={() => navigate("/home")}>
+//                     Go to Home
+//                 </Button>
+//                 <Button color="success" className="m-2" onClick={() => navigate("/add-employee")}>
+//                     Add Employee
+//                 </Button>
+
+//                 <Table bordered striped responsive className="mt-3">
+//                     <thead className="bg-dark text-white">
+//                         <tr>
+//                             <th>Employee ID</th>
+//                             <th>Employee Name</th>
+//                             <th>Designation</th>
+//                             <th>Image</th>
+//                             <th>Actions</th>
+//                         </tr>
+//                     </thead>
+//                     <tbody>
+//                         {employees.length > 0 ? (
+//                             employees
+//                                 .sort((a, b) => a.employeeId - b.employeeId)
+//                                 .map((item) => (
+//                                     <Employee key={item.employeeId} employee={item} update={updateAfterDelete} onView={handleViewEmployee} />
+//                                 ))
+//                         ) : (
+//                             <tr>
+//                                 <td colSpan="5" className="text-center">No Employees Found</td>
+//                             </tr>
+//                         )}
+//                     </tbody>
+//                 </Table>
+//             </Container>
+
+//             {/* ✅ Employee Details Modal */}
+//             <EmployeeModal 
+//                 isOpen={isModalOpen} 
+//                 toggle={() => setIsModalOpen(!isModalOpen)} 
+//                 employee={selectedEmployee} 
+//                 getImageForDesignation={getImageForDesignation} 
+//             />
+//         </>
+//     );
+// };
+
+// export default Allemployees;

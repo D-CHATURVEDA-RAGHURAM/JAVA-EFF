@@ -2,27 +2,15 @@ package com.example.restapi.usecase.employee.student.project.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-<<<<<<< HEAD
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@Getter
-@Setter
-=======
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
->>>>>>> f2c74ba4b5f2d570e666875c8d33be62127bcd2e
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -31,10 +19,7 @@ public class Student {
 	
 	@Id
 	@Column(name = "student_id")
-<<<<<<< HEAD
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-=======
->>>>>>> f2c74ba4b5f2d570e666875c8d33be62127bcd2e
 	private long studentId;
 	
 	@Column(name = "student_name")
@@ -45,7 +30,6 @@ public class Student {
 	
 	@Column(name = "student_rollno")
 	private long studentRollno;
-<<<<<<< HEAD
 
 //	public long getStudentId() {
 //		return studentId;
@@ -92,7 +76,4 @@ public class Student {
 //	}
 //	
 //	
-	
-=======
->>>>>>> f2c74ba4b5f2d570e666875c8d33be62127bcd2e
 }

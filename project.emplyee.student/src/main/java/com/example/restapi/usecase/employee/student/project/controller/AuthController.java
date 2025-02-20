@@ -1,6 +1,5 @@
 package com.example.restapi.usecase.employee.student.project.controller;
 
-import com.example.restapi.usecase.employee.student.project.entity.User;
 import com.example.restapi.usecase.employee.student.project.service.UserService;
 import com.example.restapi.usecase.employee.student.project.util.JwtUtil;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +40,7 @@ public class AuthController {
             Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(username, password)
             );
-
+            
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             // Load user details

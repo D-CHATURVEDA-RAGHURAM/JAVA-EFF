@@ -4,10 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-<<<<<<< HEAD
 import org.springframework.security.access.prepost.PreAuthorize;
-=======
->>>>>>> f2c74ba4b5f2d570e666875c8d33be62127bcd2e
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -70,10 +67,7 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("/display")
-<<<<<<< HEAD
 	@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-=======
->>>>>>> f2c74ba4b5f2d570e666875c8d33be62127bcd2e
 	public List<EmployeeDto> printEmployee()
 	{
 		return employeeService.employeePrint();

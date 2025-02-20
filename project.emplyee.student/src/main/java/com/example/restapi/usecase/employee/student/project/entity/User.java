@@ -22,6 +22,6 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private Set<String> roles;
+   
+    private String roles;
 }
