@@ -18,7 +18,8 @@ RUN npm run build
 
 # Serve the build with a lightweight server
 RUN npm install -g serve
-CMD ["serve", "-s", "build", "-l", "3000"]
+CMD ["serve", "-s", "build", "-l", "3000", "--single"]
+
 
 # Expose the frontend port
 EXPOSE 3000

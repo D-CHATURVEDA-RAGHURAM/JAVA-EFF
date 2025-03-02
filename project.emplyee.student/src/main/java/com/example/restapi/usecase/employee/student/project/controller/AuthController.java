@@ -1,7 +1,9 @@
 package com.example.restapi.usecase.employee.student.project.controller;
 
-import com.example.restapi.usecase.employee.student.project.service.UserService;
 import com.example.restapi.usecase.employee.student.project.util.JwtUtil;
+
+import io.jsonwebtoken.Jwts;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -12,19 +14,24 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.Base64;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
-    private final UserService userService;
     private final JwtUtil jwtUtil;
 
-    public AuthController(AuthenticationManager authenticationManager, UserService userService, JwtUtil jwtUtil) {
+    private final String SECRET_KEY = "XJ7MWiRJvJhj7xAMT5r7mERHBSF1p2yY7IivwMVVpEc=";
+
+    public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
         this.authenticationManager = authenticationManager;
-        this.userService = userService;
         this.jwtUtil = jwtUtil;
+    }
+
+    private byte[] getSecretKey() {
+        return Base64.getDecoder().decode(SECRET_KEY);
     }
 
     @PostMapping("/login")
@@ -53,6 +60,17 @@ public class AuthController {
             return ResponseEntity.status(401).body(Map.of("error", "Invalid username or password"));
         } catch (Exception e) {
             return ResponseEntity.status(500).body(Map.of("error", "Authentication failed"));
+        }
+    }
+    
+    @GetMapping("/validate")
+    public ResponseEntity<?> validateToken(@RequestHeader("Authorization") String token) {
+        try {
+            String jwt = token.substring(7); // Remove "Bearer "
+            Jwts.parserBuilder().setSigningKey(getSecretKey()).build().parseClaimsJws(jwt);
+            return ResponseEntity.ok().body("Token is valid ✅");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Token ❌");
         }
     }
 }

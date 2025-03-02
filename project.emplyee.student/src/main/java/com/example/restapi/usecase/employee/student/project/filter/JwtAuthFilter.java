@@ -1,9 +1,10 @@
 package com.example.restapi.usecase.employee.student.project.filter;
 
 import com.example.restapi.usecase.employee.student.project.service.CustomUserDetailsService;
+//import com.example.restapi.usecase.employee.student.project.util.JwtUtil;
 import com.example.restapi.usecase.employee.student.project.util.JwtUtil;
+
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -14,16 +15,14 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextImpl;
 import java.io.IOException;
 
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
-
-    @Autowired
-    private JwtUtil jwtUtil;
+	
+	@Autowired
+	private JwtUtil jwtUtil;
     
     @Autowired
     private CustomUserDetailsService userDetailsService;

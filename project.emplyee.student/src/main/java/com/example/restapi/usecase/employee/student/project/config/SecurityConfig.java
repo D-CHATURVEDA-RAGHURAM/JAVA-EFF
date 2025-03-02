@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -41,10 +42,12 @@ public class SecurityConfig {
         	.and()
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-            	    .requestMatchers("/auth/**").permitAll()  // Public endpoints
-            	    .requestMatchers("/employee/**").permitAll()// Only ADMINs can access
-            	    .requestMatchers("/users/**").permitAll()
-            	    .anyRequest().authenticated()
+            		.requestMatchers("/auth/**").permitAll()  // Public endpoints
+                    .requestMatchers(HttpMethod.GET, "/employee/**").permitAll() // Allow GET requests without authentication
+                    .requestMatchers(HttpMethod.POST, "/employee/**").authenticated() // Require authentication for POST
+                    .requestMatchers(HttpMethod.PUT, "/employee/**").authenticated()  // Require authentication for PUT
+                    .requestMatchers(HttpMethod.DELETE, "/employee/**").authenticated() // Require authentication for DELETE
+                    .anyRequest().authenticated()
             	)
 
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

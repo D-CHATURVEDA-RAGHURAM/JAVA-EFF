@@ -3,7 +3,6 @@ import axios from "axios";
 import base_url from "../api/bootapi";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-// MUI
 import {
   Box,
   Container,
@@ -17,6 +16,7 @@ import {
   Paper,
   TableContainer,
   TablePagination,
+  TableSortLabel,
 } from "@mui/material";
 import Header from "./Header";
 import Employee from "./Employee";
@@ -24,10 +24,11 @@ import EmployeeModal from "./EmployeeModal";
 
 const Allemployees = () => {
   const [employees, setEmployees] = useState([]);
+  const [originalEmployees, setOriginalEmployees] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
 
-  // For pagination
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -40,7 +41,10 @@ const Allemployees = () => {
   const getAllEmployeesFromServer = () => {
     axios
       .get(`${base_url}/display`)
-      .then((response) => setEmployees(response.data))
+      .then((response) => {
+        setEmployees(response.data);
+        setOriginalEmployees(response.data);
+      })
       .catch(() => toast.error("Something went wrong"));
   };
 
@@ -53,22 +57,37 @@ const Allemployees = () => {
     setIsModalOpen(true);
   };
 
-  // Handle pagination page change
+  const handleSort = (key) => {
+    let direction = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
+    } else if (sortConfig.key === key && sortConfig.direction === "desc") {
+      setEmployees([...originalEmployees]); // Reset order
+      setSortConfig({ key: null, direction: "asc" });
+      return;
+    }
+  
+    const sortedData = [...employees].sort((a, b) => {
+      if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
+      if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
+      return 0;
+    });
+  
+    setSortConfig({ key, direction });
+    setEmployees(sortedData);
+  };
+  
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
-  // Handle rows-per-page change
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
 
-  // Sort employees by ID
-  const sortedEmployees = employees.sort((a, b) => a.employeeId - b.employeeId);
-
-  // Slice employees for current page
-  const paginatedEmployees = sortedEmployees.slice(
+  const paginatedEmployees = employees.slice(
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage
   );
@@ -76,26 +95,15 @@ const Allemployees = () => {
   return (
     <>
       <Header />
-
       <Container sx={{ mt: 2 }}>
         <Box sx={{ textAlign: "center", mb: 3 }}>
           <Typography variant="h5" gutterBottom>
             All Employee Details
           </Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{ m: 1 }}
-            onClick={() => navigate("/home")}
-          >
+          <Button variant="contained" color="primary" sx={{ m: 1 }} onClick={() => navigate("/home")}>
             Go to Home
           </Button>
-          <Button
-            variant="contained"
-            color="success"
-            sx={{ m: 1 }}
-            onClick={() => navigate("/add-employee")}
-          >
+          <Button variant="contained" color="success" sx={{ m: 1 }} onClick={() => navigate("/add-employee")}>
             Add Employee
           </Button>
         </Box>
@@ -105,79 +113,46 @@ const Allemployees = () => {
             <Table stickyHeader>
               <TableHead>
                 <TableRow>
-                  <TableCell
-                    sx={{
-                      backgroundColor: "#424242",
-                      color: "#fff",
-                      fontWeight: "bold",
-                    }}
-                  >
+                  <TableCell sx={{ backgroundColor: "#424242", color: "#fff", fontWeight: "bold" }}>
+                  <TableSortLabel
+                    active={sortConfig.key === "employeeId"}
+                    direction={sortConfig.key === "employeeId" ? sortConfig.direction : "asc"}
+                    onClick={() => handleSort("employeeId")}
+                    sx={{ color: "white !important" }} // Keeps text white even when hovered
+                    >
                     Employee ID
+                  </TableSortLabel>
                   </TableCell>
-                  <TableCell
-                    sx={{
-                      backgroundColor: "#424242",
-                      color: "#fff",
-                      fontWeight: "bold",
-                    }}
-                  >
+                  <TableCell sx={{ backgroundColor: "#424242", color: "#fff", fontWeight: "bold" }}>
+                  <TableSortLabel
+                    active={sortConfig.key === "employeeName"}
+                    direction={sortConfig.key === "employeeName" ? sortConfig.direction : "asc"}
+                    onClick={() => handleSort("employeeName")}
+                    sx={{ color: "white !important" }} // Keeps text white even when hovered
+                    >
                     Employee Name
+                  </TableSortLabel>
                   </TableCell>
-                  <TableCell
-                    sx={{
-                      backgroundColor: "#424242",
-                      color: "#fff",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Designation
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      backgroundColor: "#424242",
-                      color: "#fff",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Image
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    sx={{
-                      backgroundColor: "#424242",
-                      color: "#fff",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Actions
-                  </TableCell>
+                  <TableCell sx={{ backgroundColor: "#424242", color: "#fff", fontWeight: "bold" }}>Designation</TableCell>
+                  
+                  <TableCell sx={{ backgroundColor: "#424242", color: "#fff", fontWeight: "bold" }}>Image</TableCell>
+                  <TableCell align="center" sx={{ backgroundColor: "#424242", color: "#fff", fontWeight: "bold" }}>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {paginatedEmployees && paginatedEmployees.length > 0 ? (
+                {paginatedEmployees.length > 0 ? (
                   paginatedEmployees.map((item) => (
-                    <Employee
-                      key={item.employeeId}
-                      employee={item}
-                      update={updateAfterDelete}
-                      onView={handleViewEmployee}
-                    />
+                    <Employee key={item.employeeId} employee={item} update={updateAfterDelete} onView={handleViewEmployee} />
                   ))
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={5} align="center">
-                      No Employees Found
-                    </TableCell>
+                    <TableCell colSpan={5} align="center">No Employees Found</TableCell>
                   </TableRow>
                 )}
               </TableBody>
             </Table>
           </TableContainer>
 
-          {/* 
-            1) Wrap TablePagination in a Box to center it horizontally 
-            2) Override MUI classes to remove left/right alignment
-          */}
           <Box sx={{ display: "flex", justifyContent: "center", p: 1 }}>
             <TablePagination
               component="div"
@@ -211,16 +186,13 @@ const Allemployees = () => {
         </Paper>
       </Container>
 
-      <EmployeeModal
-        isOpen={isModalOpen}
-        toggle={() => setIsModalOpen(!isModalOpen)}
-        employee={selectedEmployee}
-      />
+      <EmployeeModal isOpen={isModalOpen} toggle={() => setIsModalOpen(!isModalOpen)} employee={selectedEmployee} />
     </>
   );
 };
 
 export default Allemployees;
+
 
 
 

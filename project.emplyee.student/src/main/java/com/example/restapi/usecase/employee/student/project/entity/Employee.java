@@ -7,14 +7,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+//@Data
+//@AllArgsConstructor
+//@NoArgsConstructor
 @Entity
 @Table(name = "Employee")
 public class Employee {
@@ -29,6 +27,42 @@ public class Employee {
 	
 	@Column(name = "employee_desig")
 	private String employeeDesig;
+
+	public long getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(long employeeId) {
+		this.employeeId = employeeId;
+	}
+
+	public String getEmployeeName() {
+		return employeeName;
+	}
+
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
+
+	public String getEmployeeDesig() {
+		return employeeDesig;
+	}
+
+	public void setEmployeeDesig(String employeeDesig) {
+		this.employeeDesig = employeeDesig;
+	}
+
+	public Employee(long employeeId, String employeeName, String employeeDesig) {
+		super();
+		this.employeeId = employeeId;
+		this.employeeName = employeeName;
+		this.employeeDesig = employeeDesig;
+	}
+
+	public Employee() {
+		super();
+	}
+	
 	
 	
 }
