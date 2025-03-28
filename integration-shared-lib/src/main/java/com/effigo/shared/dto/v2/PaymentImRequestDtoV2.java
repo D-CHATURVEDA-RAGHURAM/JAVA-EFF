@@ -1,0 +1,20 @@
+package com.effigo.shared.dto.v2;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class PaymentImRequestDtoV2 {
+	@JsonProperty("Im_Request")
+	private List<PaymentDtoV2> paymentDtoV2s;
+}

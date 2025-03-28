@@ -1,0 +1,288 @@
+.mainContainer {
+    height: 100vh;
+}
+
+.materialGrid {
+    height: 100%;
+    & button{
+        padding-inline: 5px;
+        font-size: 12px;
+    }
+    & .buttonsContainer {
+        display: flex;
+        gap: 5px;
+        justify-content: end;
+    }
+    & .k-filtercell-wrapper .k-textbox{
+        height: 20px;
+        font-size: 12px;
+    }
+    & .k-grid-pager{
+        padding: 10px;
+        height: 35px;
+    }
+    & .gridToolbar {
+        width: 100%;
+        padding: 8px;
+        display: block;
+    }
+    & .dropdown-container{
+        height:20px;
+        width:200px;
+        & .dropdown-heading{
+            height:20px;
+            font-size: 12px;
+            padding-inline:5px;
+            & svg{
+                height:18px;
+                width:18px;
+            }
+        }
+        & .dropdown-content{
+            font-size: 10px;
+            padding-top: 5px;
+            border:1px solid red;
+            position: absolute;
+            z-index: 1000;
+        }
+    }
+    & .filter-container{
+        display: flex;
+        flex-wrap: wrap;
+        row-gap: 15px;
+        padding-top: 5px;
+        column-gap: 20px;
+        align-items: flex-start;
+        justify-content: center;
+        & .filter{
+            text-align: left;
+            & .k-dropdownlist{
+                margin-inline: 0px !important;
+            }
+            & label{
+                margin-bottom: 0px;
+            }
+            & label{
+                margin-right: 5px;
+            }
+        }
+    }
+}
+
+.k-animation-container {
+    & *{
+        font-size: 12px;
+    }
+}
+
+.uploaderContainer {
+    border-radius: 10px;
+    border: 5px solid #e6e6e6;
+    & .filepond--credits {
+        display: none;
+    }
+    
+    & .filepond--wrapper {
+      margin: auto;
+      border-radius: 8px;
+    }
+    
+    & .filepond--wrapper .filepond--root {
+      margin-bottom: 0px !important;
+    }
+    
+    & .filepond--drop-label {
+      border-radius: 8px;
+      background-color: white;
+    }
+    
+    & .filepond--drip {
+      background: white !important;
+      opacity: 1 !important;
+    }  
+    & .filepond--action-process-item {
+        animation: glow 1.4s ease-out infinite;
+        &:hover{
+            animation: none;
+        }
+    }
+
+}
+
+@keyframes glow {
+    0% {
+      box-shadow: 0 0 0 0 white;
+    }
+    
+    50% {
+      box-shadow: 0 0 30px 0 white;
+    }
+  }
+
+.uploaderDialog {
+    & .k-dialog{
+        border-radius: 10px;
+        min-height: 40vh;
+    }
+    & .k-dialog-titlebar{
+        border-radius: 10px 10px 0px 0px;
+    }
+    & .k-dialog-actions button{
+        color: #fff;
+        background: #012954;
+        border:1px solid #012954;
+    }
+    & .k-dialog-actions button:hover{
+        background: #012042;
+    }
+    & .filepond--label-action{
+        color: #0748AE;
+    }
+}
+
+.popup-content {
+    background-color: #fff;
+    width: fit-content;
+    padding: 8px;
+    border: 1px solid rgba(0,0,0,.05);
+    border-radius: 4px;
+    display: flex;
+    gap:5px;
+    font-size: 12px;
+    & .preference{
+        padding-inline: 5px;
+        font-size: 12px;
+        background: #47c746;
+        border:1px solid #47c746;
+        color: #fff;
+    }
+    & .show{
+        padding-inline: 5px;
+        font-size: 12px;
+        background: #012954;
+        border:1px solid #012954;
+        color: #fff;
+    }
+}
+
+.column-container{
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+}
+
+.file-success{
+    padding-left: 20px;
+    padding-top: 10px;
+    color : #369763;
+}
+
+.file-error{
+    padding-left: 20px;
+    padding-top: 10px;
+    color : #C44E47;
+}
+
+.notes-container{
+    border-radius : 8px;
+    padding: 16px 16px 4px 16px;
+    background:#eef4f9;
+    margin-bottom: 16px;
+    font-size: 12px;
+    & ul{
+        line-height: normal;
+    }
+    & .k-i-download{
+        line-height: normal;
+        color: inherit;
+        margin-right: 4px;
+    }
+}
+
+.buttonVisible{
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: all !important;
+}
+
+.doc-link {
+    color: #007bff !important;
+    border: none !important;
+    padding: 0 !important;
+    text-align: left !important;
+    background-color: transparent !important;
+    font-size: 11px !important;
+    &:hover {
+        font-weight: bold;
+        color: #025fc3 !important;
+    }
+    &:active,
+    &:focus {
+        outline: none; 
+        border: none !important;
+    }
+}
+
+.item-dialog{
+    display:block !important;
+    & .k-window-content{
+        padding:0px !important;
+    }
+    & .k-grid{
+        height: 100vh;
+    }
+}
+
+.itemsButtonContainer{
+    display: flex;
+    justify-content: space-between;
+    & .breadcrumbs{
+        display:flex;
+        gap:10px;
+        & div{
+            color:#288CAB;
+        }
+        & div:nth-child(odd){
+            font-size:13px;
+            cursor: pointer;
+            opacity: 0.7;
+            &:hover{
+                opacity: 1;
+            }
+        }
+        & div:last-child{
+            font-weight: bold;
+        }
+    }
+}
+
+
+.k-multiselect{
+    width: 200px !important;
+    height: max-content !important;
+    min-height: 18px;
+    padding: 1px;
+    & .k-input-values{
+      min-height: 18px;
+      max-height:40px;
+      overflow-y: scroll;
+      overflow-x: hidden;  
+      padding:0;
+    }
+    & .k-chip-content{
+        font-size: 10px;
+        padding-block: 2px;
+        margin:0;
+    }
+    & .k-chip{
+        padding:1px;
+    }
+}
+
+.dropdown-filter{
+    display: flex;
+    align-items: start !important;
+    & label{
+        padding-top: 4px;
+    }
+}

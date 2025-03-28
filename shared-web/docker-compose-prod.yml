@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  shared-prod:
+    container_name: shared-web-prod
+    image: registry.gitlab.com/effigonew/shared/utility/shared-web:prod
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '6006:3000'
+    env_file:
+      - .env.prod

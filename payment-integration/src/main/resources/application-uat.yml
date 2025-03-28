@@ -1,0 +1,155 @@
+spring:
+  cloud:
+    aws:
+      accessKey: AKIA3MNTDUSQBRH6SJMF
+      secretKey: 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
+      region: ap-south-1
+
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    properties:
+      hibernate:
+        id:
+          new_generator_mappings: false
+        jdbc:
+          lob:
+            ddl-non_contextual_creation: true # When you launch the application for the first time - switch "none" at "create"
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        ddl-auto: create
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+#Security
+security:
+  user:
+    name: bob
+    password: pwd@123
+# Server configuration
+server:
+  port: 9002
+  tomcat:
+    accesslog:
+      enabled: true
+    basedir: tomcat
+
+# Actuator Health Checks
+management:
+  endpoints:
+     web.base-path: /effigo/payment/integration
+     health.path: /health
+     info.path: /info
+
+#JWT configuration
+secret:
+  username: test
+  password: test
+  key: my-secret-key@123
+  validityInDays: 2
+tenants:
+  datasources:
+    tatareality:
+      jdbcUrl: jdbc:postgresql://shared-preprod.clxvybcdn8fq.ap-south-1.rds.amazonaws.com:5432/tatareality_uat?currentSchema=upeg
+      driverClassName: org.postgresql.Driver
+      schema:
+      username: upeg
+      password: KjpIQ4CzJu4tLCYnz6cY0w==
+    ghcl:
+      jdbcUrl: jdbc:postgresql://shared-preprod.clxvybcdn8fq.ap-south-1.rds.amazonaws.com:5432/ghcl_uat?currentSchema=upeg
+      driverClassName: org.postgresql.Driver
+      schema:
+      username: upeg
+      password: KjpIQ4CzJu4tLCYnz6cY0w==
+    varroc:
+      jdbcUrl: jdbc:postgresql://shared-preprod.clxvybcdn8fq.ap-south-1.rds.amazonaws.com:5432/varroc_portal_prod27may24?currentSchema=upeg
+      driverClassName: org.postgresql.Driver
+      schema:
+      username: masters
+      password: KjpIQ4CzJu4tLCYnz6cY0w==
+    kbl:
+      jdbcUrl: jdbc:postgresql://shared-preprod.clxvybcdn8fq.ap-south-1.rds.amazonaws.com:5432/kbl_demo
+      driverClassName: org.postgresql.Driver
+      schema:
+      username: masters
+      password: KjpIQ4CzJu4tLCYnz6cY0w==
+    default:
+      jdbcUrl: jdbc:postgresql://shared-preprod.clxvybcdn8fq.ap-south-1.rds.amazonaws.com:5432/tatareality_uat?currentSchema=upeg
+      driverClassName: org.postgresql.Driver
+      schema:
+      username: upeg
+      password: KjpIQ4CzJu4tLCYnz6cY0w==
+  internallinks:
+    varroc:
+      api:
+        username:
+        password:
+        accesskey:
+        links:
+          vendorcreateorupdate: http://localhost:9005/effigo/api/external/vendor/v1/nccltd/item
+          vendorbulkcreateorupdate: http://localhost:9005/effigo/api/external/vendor/v1/nccltd/items
+          masteritemcreateorupdate: http://localhost:9002/effigo/api/external/master/v1/nccltd/item
+          masterbulkUpload: http://localhost:9002/effigo/api/external/master/v1/nccltd/items
+          masterattributecreateorupdate: http://localhost:9002/effigo/api/external/master/v1/nccltd/attribute
+          prinboundcreate: http://localhost:9003/effigo/api/external/pr/inbound/v1/varroc/create
+          prinboundamend: http://localhost:9003/effigo/api/external/pr/inbound/v1/varroc/amend
+          prinboundcancel: http://localhost:9003/effigo/api/external/pr/inbound/v1/varroc/cancel
+          prStatus: http://localhost:9003/effigo/api/external/pr/v1/nccltd/status
+          poinboundcreate: http://localhost:9004/effigo/api/external/po/inbound/v2/varroc/create
+          poinboundupdate: http://localhost:9004/effigo/api/external/po/inbound/v2/varroc/amend
+          poinboundcancel: http://localhost:9004/effigo/api/external/po/inbound/v2/varroc/cancel
+          poStatus: http://localhost:9004/effigo/api/external/po/v1/nccltd/status
+
+  externallinks:
+   varroc:
+     api:
+       username: S0025112465
+       password: Adi@1234
+       accesskey: UzAwMjUxMTI0NjU6QWRpQDEyMzQ=
+       links:
+         vendorcreateorupdate: https://varroc-cpi-dev-2pa15fie.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/VendMaster/V1
+         prinboundcreate: http://localhost:9003/effigo/api/external/pr/inbound/v1/nccltd/create
+         asnCreate: https://varroc-cpi-dev-2pa15fie.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/ASN/V1
+         asnCancel: https://varroc-cpi-dev-2pa15fie.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/ASN_GRN/Cancellation/V1
+         grnCreate: https://varroc-cpi-dev-2pa15fie.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/GRN/V1
+         grnCancel: https://varroc-cpi-dev-2pa15fie.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/ASN_GRN/Cancellation/V1
+         createServiceSheet: http://localhost:9001/effigo/api/integration/mock/varroc/ServEntSheet/create
+     soap:
+        username:
+        password:
+        accesskey:
+        links:
+          link1: http://localhost:9090/bob/ws/inbounddelivery
+          link2: http://localhost:9090/bob/ws/grn
+
+  security:
+    tatareality:
+      username: devuser12
+      password: ff8080817c2178bf017c2178f52f0001
+    csscorp:
+      username: devuser34
+      password: ff8080817c2178bf017c2178652f7311
+    admin:
+      username: admin
+      password: OlJ1Y3CEoDPRbGt2Jajbhw==
+  accessKey: iHofE52hm3LsWNrPK1m_YX5IX2gcWrWjZ8El7baauJg
+  exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+  logging:
+    level:
+      com:
+        jcraft:
+          jsch: WARN
+excludebasicauthurls:
+  - /effigo/payment/integration
+  - /effigo/payment/integration/addPayment
+  - /effigo/payment/integration/health
+  - /effigo/payment/integration/info
+  - /effigo/payment/integration/v1/**
+  - /effigo/payment/integration/v1/**/**
+
+
+queue: api_transactions_local
+auditServiceStatusUrl: http://localhost:9000/effigo/api/external/audit/v1/{txnId}/status
+outbound:
+  apiTimeout: 180000
+inbound:
+  poTimeout: 1200000
+

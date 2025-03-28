@@ -1,0 +1,71 @@
+spring:
+  jpa:
+    show-sql: true
+    generate-ddl: false
+    properties:
+      hibernate:
+        id:
+          new_generator_mappings: false
+        jdbc:
+          lob:
+            ddl-non_contextual_creation: true # When you launch the application for the first time - switch "none" at "create"
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        ddl-auto: none
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+
+pool:
+  connection: 1
+
+security:
+  user:
+    name: api-uat
+    password: H25$P7SmU8nrXNa
+
+server:
+  port: 5008
+  tomcat:
+    accesslog:
+      enabled: true
+    basedir: tomcat
+
+management:
+  endpoints:
+    web.base-path: /effigo/payment/integration
+    health.path: /health
+    info.path: /info
+
+tenants:
+  datasources:
+    tepl:
+      jdbcUrl: ${DB_URL}
+      driverClassName: org.postgresql.Driver
+      schema:
+      username: ${DB_USER}
+      password: ${DB_PASSWORD}
+    tataele:
+      jdbcUrl: ${DB_URL}
+      driverClassName: org.postgresql.Driver
+      schema:
+      username: ${DB_USER}
+      password: ${DB_PASSWORD}
+    default:
+      jdbcUrl: ${DB_URL}
+      driverClassName: org.postgresql.Driver
+      schema:
+      username: ${DB_USER}
+      password: ${DB_PASSWORD}
+
+  security:
+    admin:
+      username: admin
+      password: OlJ1Y3CEoDPRbGt2Jajbhw==
+  accessKey: iHofE52hm3LsWNrPK1m_YX5IX2gcWrWjZ8El7baauJg
+
+  excludebasicauthurls:
+    - /effigo/payment/integration
+    - /effigo/payment/integration/addPayment
+    - /effigo/payment/integration/health
+    - /effigo/payment/integration/info
+    - /effigo/payment/integration/v1/**
+    - /effigo/payment/integration/v1/**/**

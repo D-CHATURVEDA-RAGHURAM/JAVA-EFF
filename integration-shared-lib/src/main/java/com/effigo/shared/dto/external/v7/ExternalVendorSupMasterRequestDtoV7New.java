@@ -1,0 +1,20 @@
+package com.effigo.shared.dto.external.v7;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class ExternalVendorSupMasterRequestDtoV7New {
+
+    @JsonProperty("ApplicationArea")
+    private ExternalApplicationAreaRequestDtoV7 externalApplicationAreaRequestDtoV7;
+
+    @JsonProperty("DataArea")
+    private ExternalDataAreaRequestDtoV7New externalDataAreaRequestDtoV7;
+}

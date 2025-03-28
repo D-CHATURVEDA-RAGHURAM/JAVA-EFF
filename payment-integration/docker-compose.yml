@@ -1,0 +1,10 @@
+version: '3'
+services:
+  payment-integration-dev:
+    container_name: payment-integration-dev
+#    image: registry.gitlab.com/effigonew/shared/integration/payment-integration:dev
+    image: payment
+    ports:
+      - '9002:9002'
+    environment:
+      - "SPRING_PROFILES_ACTIVE=dev"

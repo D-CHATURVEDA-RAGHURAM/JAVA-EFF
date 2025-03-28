@@ -1,0 +1,62 @@
+body {
+  margin: 0;
+  font-family: "Poppins";
+  font-style: normal;
+  background-color: #f3f4f5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+:root {
+  --primary: #00bbb4;
+  --primaryLite: #ccf1f0;
+  --primaryMid: #7fddd9;
+  --primaryDark: #008d87;
+  --primaryHover: #ecf9f9;
+  --secondary: #ff5959;
+  --grey: #979797;
+  --greyLite: #eaeaea;
+  --greyMid: #c4c4c4;
+  --greyDark: #4d4d4d;
+  --white: #ffffff;
+  --black: #000000;
+  --red: #cb1313;
+  --green: #08b90f;
+  --orange: #fe640d;
+}
+
+.k-link.k-selected {
+  background-color: var(--primaryLite) !important;
+  color: #fff !important;
+}
+
+.k-link:hover {
+  background-color: var(--primaryHover) !important;
+}
+
+.k-column-title {
+  white-space: nowrap;
+}
+
+.k-grid td:hover {
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.k-column-title:hover {
+  white-space: pre-line !important;
+}
+
+.k-grid-table {
+  white-space: nowrap;
+}
+
+.k-grid td {
+  white-space: nowrap;
+}
+
+.pow-span {
+  color: red;
+}

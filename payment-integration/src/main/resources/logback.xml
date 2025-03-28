@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d [%thread] %-5level %-50logger{40}-%X{tenantId}-%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/var/log/payment-integration.log</file>
+        <encoder>
+            <pattern>%d [%thread] %-5level %-50logger{40}-%X{tenantId}-%msg%n</pattern>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>/var/log/payment-integration-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>1MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>10MB</totalSizeCap>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="Console"/>
+        <appender-ref ref="RollingFile"/>
+    </root>
+
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+<!--    <logger name="org.springframework.web" level="INFO"/>-->
+
+<!--    <logger name="org.springframework.ws.client.MessageTracing.sent" level="TRACE"/>-->
+<!--    <logger name="org.springframework.ws.client.MessageTracing.received" level="TRACE"/>-->
+<!--    <logger name="org.springframework.ws.server.MessageTracing" level="TRACE"/>-->
+    <!-- Application logs at trace level -->
+    <logger name="com.effigo.payment.integration" level="trace" additivity="false">
+        <appender-ref ref="RollingFile" />
+        <appender-ref ref="Console" />
+    </logger>
+
+</configuration>

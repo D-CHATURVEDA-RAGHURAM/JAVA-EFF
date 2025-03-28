@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  shared-web-qa:
+    container_name: shared-web-qa
+    image: registry.gitlab.com/effigonew/shared/utility/shared-web:qa
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '6002:3000'
+    env_file:
+      - .env.qa
+    environment:
+      - REACT_APP_EFFIGO_MATERIAL = https://grn-api-dev.effigo.in/

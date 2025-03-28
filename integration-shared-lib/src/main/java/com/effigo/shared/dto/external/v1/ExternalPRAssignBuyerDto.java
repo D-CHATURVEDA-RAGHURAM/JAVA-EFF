@@ -1,0 +1,26 @@
+package com.effigo.shared.dto.external.v1;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+import java.util.List;
+
+
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class ExternalPRAssignBuyerDto {
+
+    @JsonProperty("effigorefno")
+    private String effigoRefNo;
+
+    @JsonProperty("reqitems")
+    private List<ExternalAssignBuyerItemDto> reqItems;
+
+}
